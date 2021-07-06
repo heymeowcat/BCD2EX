@@ -4,7 +4,7 @@
 <dwr>
     <allow>
         <create creator="new" javascript="mdbCaller">
-            <param name="class" value="serv.accessJMS"/>
+            <param name="class" value="jms.accessJMS"/>
         </create>
     </allow>
 </dwr>
