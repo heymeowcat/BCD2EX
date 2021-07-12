@@ -5,6 +5,7 @@
  */
 package Beans;
 
+import Entity.Employees;
 import Entity.Login;
 import java.util.List;
 import javax.ejb.Remote;
@@ -29,5 +30,7 @@ public interface LoginFacadeRemote {
     List<Login> findRange(int[] range);
 
     int count();
+
+    Login loginProcess(String username, String password);
     
 }

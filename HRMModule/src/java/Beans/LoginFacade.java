@@ -5,6 +5,7 @@
  */
 package Beans;
 
+import Entity.Employees;
 import Entity.Login;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -28,5 +29,12 @@ public class LoginFacade extends AbstractFacade<Login> implements Beans.LoginFac
     public LoginFacade() {
         super(Login.class);
     }
+
+    @Override
+    public Login loginProcess(String username, String password) {
+         return (Login)em.createQuery("SELECT l FROM Login l WHERE l.username ='" + username + "' AND l.password='" + password + "'  ").getResultList();
+    }
     
+    
+
 }
