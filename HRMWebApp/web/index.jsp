@@ -45,17 +45,20 @@
 
 
     <body class="grey lighten-5"> 
+
+        <%
+            if (request.getSession().getAttribute("employeeId") == null) {
+        %>
+
         <nav class="blue lighten-5" role="navigation ">
             <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo black-text">Siyarata HRM</a>
             </div>
         </nav>
-
-        <section style="height: 100vh" class="valign-wrapper StickyContent animated zoomIn ">
-
+        <section style="height: 90vh" class="valign-wrapper StickyContent animated zoomIn ">
             <div class="row  ">
                 <div id="login" class="col s12 ">
                     <div class="card-panel" >
-                        <form action="loginprocess" method="post">
+                        <form action="Login" method="post">
                             <div class="row">
                                 <div class="input-field col s12 m12">
                                     <input  id="usn" name="usn" type="text" class="validate" required="">
@@ -83,7 +86,8 @@
             </div>
 
         </section>
-
+        <%
+        } else { %>
 
         <section  style="height: 100vh;">
             <nav class="blue lighten-5" role="navigation ">
@@ -145,7 +149,7 @@
                                                 <td>dee1</td>
                                                 <td>dee2</td>
                                             </tr>
-                                            
+
                                         </tbody>
                                     </table>
 
@@ -165,12 +169,14 @@
 
 
                     <div id="pim" class="col s12">
-                        
+
                     </div>
                 </div>
 
             </center>
         </section>
+
+        <%}%>
 
         <script type="text/javascript" src="js/materialize.js"></script>
         <script>
