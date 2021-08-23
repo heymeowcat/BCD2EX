@@ -11,3 +11,14 @@
 /HRMEJBModule/nbproject/private/
 /HRMEJBModule/build/
 /HRMClassLibrary/nbproject/private/
+/HRMClassLibrary/build/
+/HRMClassLibrary/dist/
+/HRMApp/nbproject/private/
+/HRMApp/HRMApp-war/nbproject/private/
+/HRMApp/HRMApp-ejb/nbproject/private/
+/HRMApp/HRMApp-ejb/build/
+/HRMApp/HRMApp-war/build/
+/HRMApp/HRMApp-ejb/dist/
+/HRMApp/HRMApp-war/dist/
+/HRMApp/build/
+/HRMWebApp/build/
