@@ -6,6 +6,7 @@
 package EmployeeInfo.Entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -24,7 +25,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -44,28 +44,27 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Employees.findByNic", query = "SELECT e FROM Employees e WHERE e.nic = :nic")})
 public class Employees implements Serializable {
 
+
+    @Column(name = "firstName")
+    private String firstName;
+    @Column(name = "lastName")
+    private String lastName;
+    @Column(name = "profilePicURL")
+    private String profilePicURL;
+    @Column(name = "NIC")
+    private String nic;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employees")
+    private Collection<Employment> employmentCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "idEmployees")
     private Integer idEmployees;
-    @Size(max = 150)
-    @Column(name = "firstName")
-    private String firstName;
-    @Size(max = 150)
-    @Column(name = "lastName")
-    private String lastName;
-    @Lob
-    @Size(max = 65535)
-    @Column(name = "profilePicURL")
-    private String profilePicURL;
     @Column(name = "DOB")
     @Temporal(TemporalType.DATE)
     private Date dob;
-    @Size(max = 20)
-    @Column(name = "NIC")
-    private String nic;
     @JoinColumn(name = "gender", referencedColumnName = "idGender")
     @ManyToOne(optional = false)
     private Gender gender;
@@ -90,29 +89,6 @@ public class Employees implements Serializable {
         this.idEmployees = idEmployees;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getProfilePicURL() {
-        return profilePicURL;
-    }
-
-    public void setProfilePicURL(String profilePicURL) {
-        this.profilePicURL = profilePicURL;
-    }
 
     public Date getDob() {
         return dob;
@@ -122,13 +98,6 @@ public class Employees implements Serializable {
         this.dob = dob;
     }
 
-    public String getNic() {
-        return nic;
-    }
-
-    public void setNic(String nic) {
-        this.nic = nic;
-    }
 
     public Gender getGender() {
         return gender;
@@ -178,6 +147,47 @@ public class Employees implements Serializable {
     @Override
     public String toString() {
         return "EmployeeInfo.Entity.Employees[ idEmployees=" + idEmployees + " ]";
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getProfilePicURL() {
+        return profilePicURL;
+    }
+
+    public void setProfilePicURL(String profilePicURL) {
+        this.profilePicURL = profilePicURL;
+    }
+
+    public String getNic() {
+        return nic;
+    }
+
+    public void setNic(String nic) {
+        this.nic = nic;
+    }
+
+    @XmlTransient
+    public Collection<Employment> getEmploymentCollection() {
+        return employmentCollection;
+    }
+
+    public void setEmploymentCollection(Collection<Employment> employmentCollection) {
+        this.employmentCollection = employmentCollection;
     }
     
 }

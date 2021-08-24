@@ -18,7 +18,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -35,15 +34,15 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Userrole.findByUserRole", query = "SELECT u FROM Userrole u WHERE u.userRole = :userRole")})
 public class Userrole implements Serializable {
 
+    @Column(name = "userRole")
+    private String userRole;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "idUserRole")
     private Integer idUserRole;
-    @Size(max = 100)
-    @Column(name = "userRole")
-    private String userRole;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
     private List<Employees> employeesList;
 
@@ -62,13 +61,6 @@ public class Userrole implements Serializable {
         this.idUserRole = idUserRole;
     }
 
-    public String getUserRole() {
-        return userRole;
-    }
-
-    public void setUserRole(String userRole) {
-        this.userRole = userRole;
-    }
 
     @XmlTransient
     public List<Employees> getEmployeesList() {
@@ -102,6 +94,14 @@ public class Userrole implements Serializable {
     @Override
     public String toString() {
         return "EmployeeInfo.Entity.Userrole[ idUserRole=" + idUserRole + " ]";
+    }
+
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
     }
     
 }

@@ -18,7 +18,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -32,8 +31,12 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Gender.findAll", query = "SELECT g FROM Gender g")
     , @NamedQuery(name = "Gender.findByIdGender", query = "SELECT g FROM Gender g WHERE g.idGender = :idGender")
-    , @NamedQuery(name = "Gender.findByGenderName", query = "SELECT g FROM Gender g WHERE g.genderName = :genderName")})
+    , @NamedQuery(name = "Gender.findByGenderName", query = "SELECT g FROM Gender g WHERE g.genderName = :genderName")
+    })
 public class Gender implements Serializable {
+
+    @Column(name = "genderName")
+    private String genderName;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -41,9 +44,6 @@ public class Gender implements Serializable {
     @Basic(optional = false)
     @Column(name = "idGender")
     private Integer idGender;
-    @Size(max = 45)
-    @Column(name = "genderName")
-    private String genderName;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "gender")
     private List<Employees> employeesList;
 
@@ -60,14 +60,6 @@ public class Gender implements Serializable {
 
     public void setIdGender(Integer idGender) {
         this.idGender = idGender;
-    }
-
-    public String getGenderName() {
-        return genderName;
-    }
-
-    public void setGenderName(String genderName) {
-        this.genderName = genderName;
     }
 
     @XmlTransient
@@ -103,5 +95,13 @@ public class Gender implements Serializable {
     public String toString() {
         return "EmployeeInfo.Entity.Gender[ idGender=" + idGender + " ]";
     }
-    
+
+    public String getGenderName() {
+        return genderName;
+    }
+
+    public void setGenderName(String genderName) {
+        this.genderName = genderName;
+    }
+
 }

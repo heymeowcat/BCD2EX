@@ -14,7 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -38,16 +37,12 @@ public class Login implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected LoginPK loginPK;
-    @Size(max = 45)
     @Column(name = "username")
     private String username;
-    @Size(max = 45)
     @Column(name = "password")
     private String password;
-    @Size(max = 45)
     @Column(name = "loginRole")
     private String loginRole;
-    @Size(max = 45)
     @Column(name = "Status")
     private String status;
     @JoinColumn(name = "employeeId", referencedColumnName = "idEmployees", insertable = false, updatable = false)

@@ -6,6 +6,7 @@
 package EmployeeInfo.Beans;
 
 import EmployeeInfo.Entity.Employees;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,5 +29,20 @@ public class EmployeesFacade extends AbstractFacade<Employees> {
     public EmployeesFacade() {
         super(Employees.class);
     }
-    
+
+    public List getAllEmployees() {
+        return em.createNamedQuery("Employees.findAll").getResultList();
+    }
+
+    public int saveEmployee(Employees employee) {
+        em.persist(employee);
+        em.flush();
+        return employee.getIdEmployees();
+
+    }
+    public Employees findEmployeesid(int id) {
+        return (Employees) em.createNamedQuery("Employees.findByIdEmployees").setParameter("idEmployees", id).getSingleResult();
+    }
+   
+   
 }

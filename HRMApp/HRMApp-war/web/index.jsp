@@ -48,6 +48,7 @@
 
         <%
             if (request.getSession().getAttribute("employeeId") == null) {
+
         %>
 
         <nav class="blue lighten-5" role="navigation ">
@@ -76,16 +77,17 @@
 
                     </div>
                 </div>
-                        <%
-                            if (request.getParameter("error") != null) {
-                        %>
-                        <p class="center">Username or Password is Incorrect</p>
-                        <%}%>
+                <%                            if (request.getParameter("error") != null) {
+                %>
+                <p class="center">Username or Password is Incorrect</p>
+                <%}%>
             </div>
 
         </section>
         <%
-        } else { %>
+        } else {
+            int uid = Integer.parseInt(request.getSession().getAttribute("employeeId").toString());
+        %>
 
         <section  style="height: 100vh;">
             <nav class="blue lighten-5" role="navigation ">
@@ -108,8 +110,8 @@
 
 
                         <ul class="collapsible">
-                            <li>
-                                <div class="collapsible-header"><i class="material-icons">person</i>User Management</div>
+                            <li class="active">
+                                <div class="collapsible-header"><i class="material-icons">person</i>Users</div>
                                 <div class="collapsible-body">
 
                                     <div class="row">
@@ -122,34 +124,59 @@
                                             <label for="employee_name">Employee Name</label>
                                         </div>
                                         <button class="left blue lighten-1 btn white-text">Search</button>
-                                        <button style="margin-left: 10px" class="left red lighten-1 btn "><i class="material-icons">refresh</i></button>
+                                        <button onclick="showAllUsers(<%=uid%>);" style="margin-left: 10px" class="left red lighten-1 btn "><i class="material-icons">refresh</i></button>
 
                                     </div>
 
 
+                                    <div id="usertable">
 
-                                    <table class="highlight">
-                                        <thead>
-                                            <tr>
-                                                <th>Id</th>
-                                                <th>Username</th>
-                                                <th>User Role</th>
-                                                <th>Employee name</th>
-                                                <th>Status</th>
-                                            </tr>
-                                        </thead>
+                                    </div>
 
-                                        <tbody>
-                                            <tr style="cursor: pointer" >
-                                                <td>1</td>
-                                                <td>Eclair</td>
-                                                <td>dee</td>
-                                                <td>dee1</td>
-                                                <td>dee2</td>
-                                            </tr>
 
-                                        </tbody>
-                                    </table>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="collapsible-header"><i class="material-icons">person_add</i>Add Users</div>
+                                <div class="collapsible-body">
+
+                                    <div class="row">
+                                        <div class="input-field col s12 m6">
+                                            <input id="newUserRole" type="text" class="validate">
+                                            <label for="newUserRole">User Role</label>
+                                        </div>
+                                        <div class="input-field col s12 m6">
+                                            <input id="newEmployeeNic" type="text" class="validate">
+                                            <label for="newEmployeeNic">NIC</label>
+                                        </div>
+                                        <div class="input-field col s12 m6">
+                                            <input id="newEmployeefirstname" type="text" class="validate">
+                                            <label for="newEmployeefirstname">Employee First Name</label>
+                                        </div>
+                                        <div class="input-field col s12 m6">
+                                            <input id="newEmployeelastname" type="text" class="validate">
+                                            <label for="newEmployeelastname">Employee Last Name</label>
+                                        </div>
+                                        <div class="input-field col s12 m6">
+                                            <input id="newEmployeeGender" type="text" class="validate">
+                                            <label for="newEmployeeGender">Gender</label>
+                                        </div>
+                                        <div class="input-field col s12 m6">
+                                            <input id="newEmployeeUsername" type="text" class="validate">
+                                            <label for="newEmployeeUsername">Username</label>
+                                        </div>
+                                        <div class="input-field col s12 m6">
+                                            <input id="newEmployeePassword" type="password" class="validate">
+                                            <label for="newEmployeePassword">Password</label>
+                                        </div>
+                                        <div class="input-field col s12 m6">
+                                            <input id="newEmployeeCPassword" type="password" class="validate">
+                                            <label for="newEmployeeCPassword">Confirm Password</label>
+                                        </div>
+
+                                        <button onclick="addNewUser();" class="left blue lighten-1 btn white-text">Save</button>
+
+                                    </div>
 
                                 </div>
                             </li>
@@ -157,10 +184,7 @@
                                 <div class="collapsible-header"><i class="material-icons">work</i>Job </div>
                                 <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
                             </li>
-                            <li>
-                                <div class="collapsible-header"><i class="material-icons">whatshot</i>Third</div>
-                                <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-                            </li>
+
                         </ul>
                     </div>
 
@@ -174,20 +198,74 @@
             </center>
         </section>
 
-        <%}%>
+        <div id="peekprofile" class=" modal bottom-sheet card" style="max-height:100%">
+            <div id="profilepeek" class="container">
+
+            </div>
+        </div>
 
         <script type="text/javascript" src="js/materialize.js"></script>
         <script>
-            $(document).ready(function () {
-                $('.tabs').tabs();
-                $('.collapsible').collapsible();
-                $(".dropdown-trigger").dropdown();
-                $("body").on("contextmenu", function (e) {
-                    return false;
-                });
+                                            $(document).ready(function () {
+                                                $('.tabs').tabs();
+                                                $('.collapsible').collapsible();
+                                                $(".dropdown-trigger").dropdown();
+                                                $('#peekprofile').modal();
+                                                $("body").on("contextmenu", function (e) {
+                                                    return false;
+                                                });
+                                                showAllUsers(<%=uid%>);
+                                            });
 
-            });
+                                            function showAllUsers(uid) {
+                                                userid = uid;
+                                                var xhttp;
+                                                xhttp = new XMLHttpRequest();
+                                                xhttp.onreadystatechange = function () {
+                                                    if (this.readyState == 4 && this.status == 200) {
+                                                        document.getElementById("usertable").innerHTML = this.responseText;
+                                                        $('.collapsible').collapsible();
+                                                    }
+                                                };
+                                                xhttp.open("GET", "employees?uid=" + uid, true);
+                                                xhttp.send();
+                                            }
+                                            function showprofile(str) {
+                                                var xhttp;
+                                                xhttp = new XMLHttpRequest();
+                                                xhttp.onreadystatechange = function () {
+                                                    if (this.readyState == 4 && this.status == 200) {
+                                                        document.getElementById("profilepeek").innerHTML = this.responseText;
+                                                        $('.collapsible').collapsible();
+                                                    }
+                                                };
+                                                xhttp.open("GET", "profilefullview?q=" + str, true);
+                                                xhttp.send();
+                                            }
+                                            function addNewUser() {
+                                                var newRole = $('#newUserRole').val();
+                                                var newNic = $('#newEmployeeNic').val();
+                                                var newFname = $('#newEmployeefirstname').val();
+                                                var newLname = $('#newEmployeelastname').val();
+                                                var newUsn = $('#newEmployeeUsername').val();
+                                                var newPsw = $('#newEmployeePassword').val();
+                                                var newCPsw = $('#newEmployeeCPassword').val();
+                                                var newGender =  $('#newEmployeeGender').val();
+                                                if (newCPsw == newPsw) {
+
+                                                    var xhttp;
+                                                    xhttp = new XMLHttpRequest();
+                                                    xhttp.onreadystatechange = function () {
+                                                        if (this.readyState == 4 && this.status == 200) {
+
+                                                        }
+                                                    };
+                                                    xhttp.open("GET", "addNewEmployee?newRole=" + newRole + "&newNic=" + newNic + "&newFname=" + newFname + "&newLname=" + newLname + "&newUsn=" + newUsn + "&newPsw=" + newPsw + "&newGender=" + newGender, true);
+                                                    xhttp.send();
+                                                }
+
+                                            }
         </script> 
     </body>
-
+    <%}%>
 </html>
