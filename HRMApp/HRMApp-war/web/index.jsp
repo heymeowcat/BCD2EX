@@ -250,14 +250,22 @@
                                                 var newUsn = $('#newEmployeeUsername').val();
                                                 var newPsw = $('#newEmployeePassword').val();
                                                 var newCPsw = $('#newEmployeeCPassword').val();
-                                                var newGender =  $('#newEmployeeGender').val();
+                                                var newGender = $('#newEmployeeGender').val();
                                                 if (newCPsw == newPsw) {
 
                                                     var xhttp;
                                                     xhttp = new XMLHttpRequest();
                                                     xhttp.onreadystatechange = function () {
                                                         if (this.readyState == 4 && this.status == 200) {
-
+                                                            $('#newUserRole').val('');
+                                                            $('#newEmployeeNic').val('');
+                                                            $('#newEmployeefirstname').val('');
+                                                            $('#newEmployeelastname').val('');
+                                                            $('#newEmployeeUsername').val('');
+                                                            $('#newEmployeePassword').val('');
+                                                            $('#newEmployeeCPassword').val('');
+                                                            $('#newEmployeeGender').val('');
+                                                            showAllUsers(<%=uid%>);
                                                         }
                                                     };
                                                     xhttp.open("GET", "addNewEmployee?newRole=" + newRole + "&newNic=" + newNic + "&newFname=" + newFname + "&newLname=" + newLname + "&newUsn=" + newUsn + "&newPsw=" + newPsw + "&newGender=" + newGender, true);
