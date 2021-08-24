@@ -58,7 +58,7 @@
             <div class="row  ">
                 <div id="login" class="col s12 ">
                     <div class="card-panel" >
-                        <form action="Login" method="post">
+                        <form action="login" method="post">
                             <div class="row">
                                 <div class="input-field col s12 m12">
                                     <input  id="usn" name="usn" type="text" class="validate" required="">
@@ -71,18 +71,16 @@
                                     <div class="g-signin2 " data-onsuccess="onSignIn" data-theme="light" ></div></center>
                                 </div>
                             </div>
-                            <p class="right">
-                                <label>
-                                    <input type="checkbox" name="check" value="remember">
-                                    <span>Remember Me</span>
-                                </label>
-                            </p>
                             <input type="submit" value="login" class="blue lighten-5 black-text btn center" >
                         </form>
 
                     </div>
                 </div>
-
+                        <%
+                            if (request.getParameter("error") != null) {
+                        %>
+                        <p class="center">Username or Password is Incorrect</p>
+                        <%}%>
             </div>
 
         </section>
@@ -187,6 +185,7 @@
                 $("body").on("contextmenu", function (e) {
                     return false;
                 });
+
             });
         </script> 
     </body>

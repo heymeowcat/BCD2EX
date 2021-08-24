@@ -13,9 +13,14 @@ import java.util.Iterator;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import org.apache.commons.codec.digest.DigestUtils;
+import util.ENCDEC;
+import util.KEY;
 
 /**
  *
@@ -31,11 +36,25 @@ public class login extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
 
-            List<EmployeeInfo.Entity.Login> logins = loginFacade.findAll();
-            for (Iterator it = logins.iterator(); it.hasNext();) {
-                EmployeeInfo.Entity.Login elem = (EmployeeInfo.Entity.Login) it.next();
-                out.println(" <b>" + elem.getUsername()+ " </b><br />");
-                out.println(elem.getPassword()+ "<br /> ");
+            String usn = request.getParameter("usn");
+            String psw = DigestUtils.md5Hex(request.getParameter("psn"));
+
+
+            Login logindetails;
+            if (!loginFacade.login(usn, psw).isEmpty()) {
+                logindetails = (Login) loginFacade.login(usn, psw).get(0);
+
+                HttpSession ses = request.getSession();
+                ses.setAttribute("employeeId", logindetails.getEmployees().getIdEmployees());
+
+                String encryptedString = ENCDEC.encrypt(logindetails.getEmployees().getIdEmployees().toString(), new KEY().secretKey);
+                Cookie cookie = new Cookie("employeeId", encryptedString);
+                cookie.setMaxAge(60 * 60 * 24 * 30);
+                response.addCookie(cookie);
+
+                response.sendRedirect("index.jsp");
+            } else {
+                response.sendRedirect("index.jsp?error=error");
             }
 
         }

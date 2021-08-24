@@ -31,7 +31,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Login.findByPassword", query = "SELECT l FROM Login l WHERE l.password = :password")
     , @NamedQuery(name = "Login.findByLoginRole", query = "SELECT l FROM Login l WHERE l.loginRole = :loginRole")
     , @NamedQuery(name = "Login.findByStatus", query = "SELECT l FROM Login l WHERE l.status = :status")
-    , @NamedQuery(name = "Login.findByEmployeeId", query = "SELECT l FROM Login l WHERE l.loginPK.employeeId = :employeeId")})
+    , @NamedQuery(name = "Login.findByEmployeeId", query = "SELECT l FROM Login l WHERE l.loginPK.employeeId = :employeeId")
+    ,@NamedQuery(name="Login.loginProcess",query = "SELECT l FROM Login l WHERE l.username = :username AND l.password =:password")})
 public class Login implements Serializable {
 
     private static final long serialVersionUID = 1L;

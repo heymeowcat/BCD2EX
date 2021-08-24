@@ -6,6 +6,7 @@
 package EmployeeInfo.Beans;
 
 import EmployeeInfo.Entity.Login;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,5 +29,10 @@ public class LoginFacade extends AbstractFacade<Login> {
     public LoginFacade() {
         super(Login.class);
     }
-    
+
+    public List login(String username, String password) {
+
+            return  em.createNamedQuery("Login.loginProcess").setParameter("username", username).setParameter("password", password).getResultList();
+    }
+
 }
