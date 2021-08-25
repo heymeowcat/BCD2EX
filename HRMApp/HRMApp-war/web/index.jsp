@@ -110,14 +110,15 @@
                                     <div class="row">
 
                                         <div class="input-field col s12 m6">
-                                            <input id="employee_name" type="text" class="validate">
-                                            <label for="employee_name">Employee Name</label>
+                                            <input id="employeenameSearch" type="text" class="validate">
+                                            <label for="employeenameSearch">Employee Name</label>
                                         </div>
                                         <div class="input-field col s12 m6">
-                                            <input id="username" type="text" class="validate">
-                                            <label for="username">Username</label>
+                                            <select id="userRoleSearch">
+                                            </select>
+                                            <label>User Role</label>
                                         </div>
-                                        <button class="left blue lighten-1 btn white-text">Search</button>
+                                        <button onclick="searchUsers();" class="left blue lighten-1 btn white-text">Search</button>
                                         <button onclick="showAllUsers(<%=uid%>);" style="margin-left: 10px" class="left red lighten-1 btn "><i class="material-icons">refresh</i></button>
                                     </div>
                                     <div id="usertable">
@@ -150,8 +151,6 @@
                                             <select id="newEmployeeGender">
                                             </select>
                                             <label>Gender</label>
-
-
                                         </div>
 
 
@@ -203,7 +202,6 @@
                                                 $('select').formSelect();
                                                 $('.collapsible').collapsible();
                                                 $(".dropdown-trigger").dropdown();
-
                                                 $('#peekprofile').modal();
                                                 $("body").on("contextmenu", function (e) {
                                                     return false;
@@ -219,6 +217,7 @@
                                                 xhttp.onreadystatechange = function () {
                                                     if (this.readyState == 4 && this.status == 200) {
                                                         document.getElementById("newUserRole").innerHTML = this.responseText;
+                                                        document.getElementById("userRoleSearch").innerHTML = this.responseText;
                                                         $('select').formSelect();
                                                     }
                                                 };
@@ -239,10 +238,9 @@
                                                 xhttp.send();
                                             }
 
-
-
-                                            function showAllUsers(uid) {
-                                                userid = uid;
+                                            function searchUsers() {
+                                                var searchRole = $('#userRoleSearch').find(":selected").text();
+                                                var searchEmpname = $('#employeenameSearch').val();
                                                 var xhttp;
                                                 xhttp = new XMLHttpRequest();
                                                 xhttp.onreadystatechange = function () {
@@ -251,9 +249,10 @@
                                                         $('.collapsible').collapsible();
                                                     }
                                                 };
-                                                xhttp.open("GET", "employees?uid=" + uid, true);
+                                                xhttp.open("GET", "searchEmployees?searchRole=" + searchRole + "&searchEmpname=" + searchEmpname, true);
                                                 xhttp.send();
                                             }
+
 
                                             function showAllUsers(uid) {
                                                 userid = uid;
@@ -281,14 +280,14 @@
                                                 xhttp.send();
                                             }
                                             function addNewUser() {
-                                                var newRole = $('#newUserRole').val();
+                                                var newRole = $('#newUserRole').find(":selected").text();
                                                 var newNic = $('#newEmployeeNic').val();
                                                 var newFname = $('#newEmployeefirstname').val();
                                                 var newLname = $('#newEmployeelastname').val();
                                                 var newUsn = $('#newEmployeeUsername').val();
                                                 var newPsw = $('#newEmployeePassword').val();
                                                 var newCPsw = $('#newEmployeeCPassword').val();
-                                                var newGender = $('#newEmployeeGender').val();
+                                                var newGender = $('#newEmployeeGender').find(":selected").text();
                                                 if (newCPsw == newPsw) {
 
                                                     var xhttp;

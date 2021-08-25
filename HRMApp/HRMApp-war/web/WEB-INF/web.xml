@@ -2,27 +2,31 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
         <servlet-name>login</servlet-name>
-        <servlet-class>web.login</servlet-class>
+        <servlet-class>employee.login</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>employees</servlet-name>
-        <servlet-class>web.employees</servlet-class>
+        <servlet-class>employee.employees</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>profilefullview</servlet-name>
-        <servlet-class>web.profilefullview</servlet-class>
+        <servlet-class>employee.profilefullview</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>addNewEmployee</servlet-name>
-        <servlet-class>web.addNewEmployee</servlet-class>
+        <servlet-class>employee.addNewEmployee</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>userroles</servlet-name>
-        <servlet-class>web.userroles</servlet-class>
+        <servlet-class>employee.userroles</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>genders</servlet-name>
-        <servlet-class>web.genders</servlet-class>
+        <servlet-class>employee.genders</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>searchEmployees</servlet-name>
+        <servlet-class>employee.searchEmployees</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>login</servlet-name>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>genders</servlet-name>
         <url-pattern>/genders</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>searchEmployees</servlet-name>
+        <url-pattern>/searchEmployees</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

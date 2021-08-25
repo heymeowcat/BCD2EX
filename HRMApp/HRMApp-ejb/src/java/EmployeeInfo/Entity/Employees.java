@@ -38,12 +38,12 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Employees.findAll", query = "SELECT e FROM Employees e")
     , @NamedQuery(name = "Employees.findByIdEmployees", query = "SELECT e FROM Employees e WHERE e.idEmployees = :idEmployees")
-    , @NamedQuery(name = "Employees.findByFirstName", query = "SELECT e FROM Employees e WHERE e.firstName = :firstName")
+    , @NamedQuery(name = "Employees.findByFirstName", query = "SELECT e FROM Employees e WHERE e.firstName LIKE CONCAT(:firstName,'%')")
     , @NamedQuery(name = "Employees.findByLastName", query = "SELECT e FROM Employees e WHERE e.lastName = :lastName")
     , @NamedQuery(name = "Employees.findByDob", query = "SELECT e FROM Employees e WHERE e.dob = :dob")
-    , @NamedQuery(name = "Employees.findByNic", query = "SELECT e FROM Employees e WHERE e.nic = :nic")})
+    , @NamedQuery(name = "Employees.findByNic", query = "SELECT e FROM Employees e WHERE e.nic = :nic")
+    ,@NamedQuery(name = "Employees.search", query = "SELECT e FROM Employees e WHERE e.firstName LIKE CONCAT(:firstName,'%') AND e.role = :searchRole")})
 public class Employees implements Serializable {
-
 
     @Column(name = "firstName")
     private String firstName;
@@ -89,7 +89,6 @@ public class Employees implements Serializable {
         this.idEmployees = idEmployees;
     }
 
-
     public Date getDob() {
         return dob;
     }
@@ -97,7 +96,6 @@ public class Employees implements Serializable {
     public void setDob(Date dob) {
         this.dob = dob;
     }
-
 
     public Gender getGender() {
         return gender;
@@ -189,5 +187,5 @@ public class Employees implements Serializable {
     public void setEmploymentCollection(Collection<Employment> employmentCollection) {
         this.employmentCollection = employmentCollection;
     }
-    
+
 }

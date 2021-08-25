@@ -3,35 +3,58 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package web;
+package employee;
 
-import EmployeeInfo.Beans.UserroleFacade;
-import EmployeeInfo.Entity.Userrole;
+import EmployeeInfo.Beans.LoginFacade;
+import EmployeeInfo.Entity.Login;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import org.apache.commons.codec.digest.DigestUtils;
+import util.ENCDEC;
+import util.KEY;
 
 /**
  *
  * @author heymeowcat
  */
-public class userroles extends HttpServlet {
+public class login extends HttpServlet {
 
     @EJB
-    private UserroleFacade userroleFacade;
+    private LoginFacade loginFacade;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            out.println("<option value=\"\" disabled selected>Choose User Role</option>");
-            
-            for (Userrole ur : userroleFacade.findAll()) {
-                out.println("<option value='"+ur.getIdUserRole()+"'>"+ur.getUserRole()+"</option>");
+
+            String usn = request.getParameter("usn");
+            String psw = DigestUtils.md5Hex(request.getParameter("psn"));
+
+
+            Login logindetails;
+            if (!loginFacade.login(usn, psw).isEmpty()) {
+                logindetails = (Login) loginFacade.login(usn, psw).get(0);
+
+                HttpSession ses = request.getSession();
+                ses.setAttribute("employeeId", logindetails.getEmployees().getIdEmployees());
+
+                String encryptedString = ENCDEC.encrypt(logindetails.getEmployees().getIdEmployees().toString(), new KEY().secretKey);
+                Cookie cookie = new Cookie("employeeId", encryptedString);
+                cookie.setMaxAge(60 * 60 * 24 * 30);
+                response.addCookie(cookie);
+
+                response.sendRedirect("index.jsp");
+            } else {
+                response.sendRedirect("index.jsp?error=error");
             }
 
         }

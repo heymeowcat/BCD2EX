@@ -6,6 +6,8 @@
 package EmployeeInfo.Beans;
 
 import EmployeeInfo.Entity.Employees;
+import EmployeeInfo.Entity.Userrole;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -40,9 +42,19 @@ public class EmployeesFacade extends AbstractFacade<Employees> {
         return employee.getIdEmployees();
 
     }
+
     public Employees findEmployeesid(int id) {
         return (Employees) em.createNamedQuery("Employees.findByIdEmployees").setParameter("idEmployees", id).getSingleResult();
     }
-   
-   
+
+    public List<Employees> searchEmployees(String searchName, Userrole searchRole) {
+        return em.createNamedQuery("Employees.search").setParameter("firstName",searchName).setParameter("searchRole", searchRole).getResultList();
+    }
+
+    
+    public List<Employees> searchEmployeesFirstName(String searchName) {
+        return em.createNamedQuery("Employees.findByFirstName").setParameter("firstName",searchName).getResultList();
+    }
+    
+    
 }
