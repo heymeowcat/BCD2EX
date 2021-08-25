@@ -62,13 +62,10 @@
                         <form action="login" method="post">
                             <div class="row">
                                 <div class="input-field col s12 m12">
-                                    <input  id="usn" name="usn" type="text" class="validate" required="">
-                                    <label for="usn">Username</label>
+                                    <input  id="usn" name="usn" type="text" class="validate" placeholder="Username" >
                                 </div>
                                 <div class="input-field col s12 m12">
-                                    <input  id="psn" name="psn" type="password" class="validate" required="">
-                                    <label for="psn">Password</label>
-
+                                    <input  id="psn" name="psn" type="password" class="validate"  placeholder="Password">
                                     <div class="g-signin2 " data-onsuccess="onSignIn" data-theme="light" ></div></center>
                                 </div>
                             </div>
@@ -105,45 +102,37 @@
                         <li class="tab col s6 m6 l6"><a  href="#recruitment">Recruitment</a></li>
                         <li class="indicator" style="left: 0px; right: 0px;"></li>
                     </ul>
-
                     <div  id="admin" style="padding: 20px" >
-
-
                         <ul class="collapsible">
                             <li class="active">
                                 <div class="collapsible-header"><i class="material-icons">person</i>Users</div>
                                 <div class="collapsible-body">
-
                                     <div class="row">
-                                        <div class="input-field col s12 m6">
-                                            <input id="username" type="text" class="validate">
-                                            <label for="username">Username</label>
-                                        </div>
+
                                         <div class="input-field col s12 m6">
                                             <input id="employee_name" type="text" class="validate">
                                             <label for="employee_name">Employee Name</label>
                                         </div>
+                                        <div class="input-field col s12 m6">
+                                            <input id="username" type="text" class="validate">
+                                            <label for="username">Username</label>
+                                        </div>
                                         <button class="left blue lighten-1 btn white-text">Search</button>
                                         <button onclick="showAllUsers(<%=uid%>);" style="margin-left: 10px" class="left red lighten-1 btn "><i class="material-icons">refresh</i></button>
-
                                     </div>
-
-
                                     <div id="usertable">
 
                                     </div>
-
-
                                 </div>
                             </li>
                             <li>
                                 <div class="collapsible-header"><i class="material-icons">person_add</i>Add Users</div>
                                 <div class="collapsible-body">
-
                                     <div class="row">
                                         <div class="input-field col s12 m6">
-                                            <input id="newUserRole" type="text" class="validate">
-                                            <label for="newUserRole">User Role</label>
+                                            <select id="newUserRole">
+                                            </select>
+                                            <label>User Role</label>
                                         </div>
                                         <div class="input-field col s12 m6">
                                             <input id="newEmployeeNic" type="text" class="validate">
@@ -158,9 +147,15 @@
                                             <label for="newEmployeelastname">Employee Last Name</label>
                                         </div>
                                         <div class="input-field col s12 m6">
-                                            <input id="newEmployeeGender" type="text" class="validate">
-                                            <label for="newEmployeeGender">Gender</label>
+                                            <select id="newEmployeeGender">
+                                            </select>
+                                            <label>Gender</label>
+
+
                                         </div>
+
+
+
                                         <div class="input-field col s12 m6">
                                             <input id="newEmployeeUsername" type="text" class="validate">
                                             <label for="newEmployeeUsername">Username</label>
@@ -173,11 +168,8 @@
                                             <input id="newEmployeeCPassword" type="password" class="validate">
                                             <label for="newEmployeeCPassword">Confirm Password</label>
                                         </div>
-
                                         <button onclick="addNewUser();" class="left blue lighten-1 btn white-text">Save</button>
-
                                     </div>
-
                                 </div>
                             </li>
                             <li>
@@ -208,14 +200,60 @@
         <script>
                                             $(document).ready(function () {
                                                 $('.tabs').tabs();
+                                                $('select').formSelect();
                                                 $('.collapsible').collapsible();
                                                 $(".dropdown-trigger").dropdown();
+
                                                 $('#peekprofile').modal();
                                                 $("body").on("contextmenu", function (e) {
                                                     return false;
                                                 });
                                                 showAllUsers(<%=uid%>);
+                                                showAllUsersRoles();
+                                                showAllGenders();
                                             });
+
+                                            function showAllUsersRoles() {
+                                                var xhttp;
+                                                xhttp = new XMLHttpRequest();
+                                                xhttp.onreadystatechange = function () {
+                                                    if (this.readyState == 4 && this.status == 200) {
+                                                        document.getElementById("newUserRole").innerHTML = this.responseText;
+                                                        $('select').formSelect();
+                                                    }
+                                                };
+                                                xhttp.open("GET", "userroles", true);
+                                                xhttp.send();
+                                            }
+
+                                            function showAllGenders() {
+                                                var xhttp;
+                                                xhttp = new XMLHttpRequest();
+                                                xhttp.onreadystatechange = function () {
+                                                    if (this.readyState == 4 && this.status == 200) {
+                                                        document.getElementById("newEmployeeGender").innerHTML = this.responseText;
+                                                        $('select').formSelect();
+                                                    }
+                                                };
+                                                xhttp.open("GET", "genders", true);
+                                                xhttp.send();
+                                            }
+
+
+
+                                            function showAllUsers(uid) {
+                                                userid = uid;
+                                                var xhttp;
+                                                xhttp = new XMLHttpRequest();
+                                                xhttp.onreadystatechange = function () {
+                                                    if (this.readyState == 4 && this.status == 200) {
+                                                        document.getElementById("usertable").innerHTML = this.responseText;
+                                                        $('.collapsible').collapsible();
+                                                    }
+                                                };
+                                                xhttp.open("GET", "employees?uid=" + uid, true);
+                                                xhttp.send();
+                                            }
 
                                             function showAllUsers(uid) {
                                                 userid = uid;

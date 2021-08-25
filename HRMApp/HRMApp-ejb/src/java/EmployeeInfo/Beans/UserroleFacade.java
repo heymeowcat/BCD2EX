@@ -7,6 +7,7 @@ package EmployeeInfo.Beans;
 
 import EmployeeInfo.Entity.Gender;
 import EmployeeInfo.Entity.Userrole;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -29,13 +30,13 @@ public class UserroleFacade extends AbstractFacade<Userrole> {
     public UserroleFacade() {
         super(Userrole.class);
     }
-    
-        public Userrole findUserRolebyName(String role) {
+
+    public Userrole findUserRolebyName(String role) {
         return (Userrole) em.createNamedQuery("Userrole.findByUserRole").setParameter("userRole", role).getSingleResult();
 //        Query query = em.createQuery("SELECT g FROM Gender g WHERE g.genderName = :genderName");
 //        query.setParameter("genderName", "");
 //        Gender result = (Gender) query.getSingleResult();
 //        return result;
     }
-    
+
 }
