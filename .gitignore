@@ -22,3 +22,4 @@
 /HRMApp/HRMApp-war/dist/
 /HRMApp/build/
 /HRMWebApp/build/
+HRMApp/HRMApp-ejb/src/java/EmailReport/EmailInfo.java
