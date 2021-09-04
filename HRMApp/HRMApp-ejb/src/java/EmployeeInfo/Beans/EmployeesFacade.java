@@ -7,9 +7,11 @@ package EmployeeInfo.Beans;
 
 import EmployeeInfo.Entity.Employees;
 import EmployeeInfo.Entity.Userrole;
+import Interceptors.EmployeeTrackingInterceptor;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -36,6 +38,7 @@ public class EmployeesFacade extends AbstractFacade<Employees> {
         return em.createNamedQuery("Employees.findAll").getResultList();
     }
 
+    @Interceptors(EmployeeTrackingInterceptor.class)
     public int saveEmployee(Employees employee) {
         em.persist(employee);
         em.flush();
@@ -55,6 +58,6 @@ public class EmployeesFacade extends AbstractFacade<Employees> {
     public List<Employees> searchEmployeesFirstName(String searchName) {
         return em.createNamedQuery("Employees.findByFirstName").setParameter("firstName",searchName).getResultList();
     }
-    
-    
+
+
 }
