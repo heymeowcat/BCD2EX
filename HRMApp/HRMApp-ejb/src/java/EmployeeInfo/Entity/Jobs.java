@@ -5,8 +5,10 @@
  */
 package EmployeeInfo.Entity;
 
+
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -36,6 +38,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Jobs.findByJobTitle", query = "SELECT j FROM Jobs j WHERE j.jobTitle = :jobTitle")
     , @NamedQuery(name = "Jobs.findByJobDescription", query = "SELECT j FROM Jobs j WHERE j.jobDescription = :jobDescription")})
 public class Jobs implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "jobId")
+    private List<Workshifts> workshiftsList;
 
     @Column(name = "jobTitle")
     private String jobTitle;
@@ -126,6 +131,15 @@ public class Jobs implements Serializable {
 
     public void setEmploymentCollection(Collection<Employment> employmentCollection) {
         this.employmentCollection = employmentCollection;
+    }
+
+    @XmlTransient
+    public List<Workshifts> getWorkshiftsList() {
+        return workshiftsList;
+    }
+
+    public void setWorkshiftsList(List<Workshifts> workshiftsList) {
+        this.workshiftsList = workshiftsList;
     }
     
 }

@@ -180,6 +180,52 @@
                     </div>
 
 
+                    <div  id="time" style="padding: 20px" >
+                        <ul class="collapsible">
+                            <li class="active">
+                                <div class="collapsible-header"><i class="material-icons">alarm</i>Time Sheets</div>
+                                <div class="collapsible-body">
+                                    <div class="row">
+
+                                        <button onclick="showAllTimesheets();" style="margin-left: 10px" class="left red lighten-1 btn "><i class="material-icons">refresh</i></button>
+                                    </div>
+                                    <div id="timesheettable">
+
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="collapsible-header"><i class="material-icons">access_time</i>Attendance</div>
+                                <div class="collapsible-body">
+                                    <div class="row">
+                                        <button onclick="showAllAttendance();" style="margin-left: 10px" class="left red lighten-1 btn "><i class="material-icons">refresh</i></button>
+                                    </div>
+                                    <div id="attendancettable">
+
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="collapsible-header"><i class="material-icons">alarm_on</i>Clock In/Out</div>
+                                <div class="collapsible-body">
+                                    <div id="clockinoutcontent" class="row">
+                                        <span class="left" id="punchInOutDateTime"></span>
+                                        <div class="input-field col s12">
+                                            <input id="newPunchinNote" type="text" class="validate">
+                                            <label for="newPunchinNote">Clock In Note</label>
+                                        </div>
+                                        <div class="input-field col s12 hiddendiv">
+                                            <input id="newPunchoutNode" type="text" class="validate">
+                                            <label for="newPunchoutNode">Clock Out Note</label>
+                                        </div>
+                                        <button onclick="addClockInOut();" class="left blue lighten-1 btn white-text">Clock In / Out</button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+
 
                     <div id="pim" class="col s12">
 
@@ -198,6 +244,7 @@
         <script type="text/javascript" src="js/materialize.js"></script>
         <script>
                                             $(document).ready(function () {
+                                                var datetimenow;
                                                 $('.tabs').tabs();
                                                 $('select').formSelect();
                                                 $('.collapsible').collapsible();
@@ -209,6 +256,8 @@
                                                 showAllUsers(<%=uid%>);
                                                 showAllUsersRoles();
                                                 showAllGenders();
+                                                showAllAttendance();
+                                                getCurrentDateTime();
                                             });
 
                                             function showAllUsersRoles() {
@@ -224,6 +273,23 @@
                                                 xhttp.open("GET", "userroles", true);
                                                 xhttp.send();
                                             }
+
+
+                                            function getCurrentDateTime() {
+                                                var xhttp;
+                                                xhttp = new XMLHttpRequest();
+                                                xhttp.onreadystatechange = function () {
+                                                    if (this.readyState == 4 && this.status == 200) {
+                                                        document.getElementById("punchInOutDateTime").innerHTML = "Date Time : " + this.responseText;
+                                                        datetimenow = this.responseText;
+                                                        $('select').formSelect();
+                                                    }
+                                                };
+                                                xhttp.open("GET", "getCurrentDatetime", true);
+                                                xhttp.send();
+                                            }
+
+
 
                                             function showAllGenders() {
                                                 var xhttp;
@@ -253,6 +319,18 @@
                                                 xhttp.send();
                                             }
 
+                                            function showAllAttendance() {
+                                                var xhttp;
+                                                xhttp = new XMLHttpRequest();
+                                                xhttp.onreadystatechange = function () {
+                                                    if (this.readyState == 4 && this.status == 200) {
+                                                        document.getElementById("attendancettable").innerHTML = this.responseText;
+                                                        $('.collapsible').collapsible();
+                                                    }
+                                                };
+                                                xhttp.open("GET", "attendance", true);
+                                                xhttp.send();
+                                            }
 
                                             function showAllUsers(uid) {
                                                 userid = uid;
@@ -279,6 +357,22 @@
                                                 xhttp.open("GET", "profilefullview?q=" + str, true);
                                                 xhttp.send();
                                             }
+
+
+                                            function addClockInOut() {
+                                                var xhttp;
+                                                xhttp = new XMLHttpRequest();
+                                                xhttp.onreadystatechange = function () {
+                                                    if (this.readyState == 4 && this.status == 200) {
+                                                        document.getElementById("clockinoutcontent").innerHTML = this.responseText;
+                                                        showAllAttendance();
+                                                    }
+                                                };
+                                                xhttp.open("GET", "clockInOut?empid=<%=uid%> ", true);
+                                                xhttp.send();
+                                            }
+
+
                                             function addNewUser() {
                                                 var newRole = $('#newUserRole').find(":selected").text();
                                                 var newNic = $('#newEmployeeNic').val();

@@ -5,6 +5,7 @@
  */
 package EmployeeInfo.Entity;
 
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -44,6 +45,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Employees.findByNic", query = "SELECT e FROM Employees e WHERE e.nic = :nic")
     ,@NamedQuery(name = "Employees.search", query = "SELECT e FROM Employees e WHERE e.firstName LIKE CONCAT(:firstName,'%') AND e.role = :searchRole")})
 public class Employees implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employeeId")
+    private List<Attendance> attendanceList;
 
     @Column(name = "firstName")
     private String firstName;
@@ -186,6 +190,15 @@ public class Employees implements Serializable {
 
     public void setEmploymentCollection(Collection<Employment> employmentCollection) {
         this.employmentCollection = employmentCollection;
+    }
+
+    @XmlTransient
+    public List<Attendance> getAttendanceList() {
+        return attendanceList;
+    }
+
+    public void setAttendanceList(List<Attendance> attendanceList) {
+        this.attendanceList = attendanceList;
     }
 
 }
