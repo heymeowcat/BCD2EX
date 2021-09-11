@@ -25,9 +25,6 @@ public class SendingEmail {
 
     String useremail;
 
-    
-    
-    
     public void sendMail(String useremail,String html) {
         this.useremail = useremail;
         final String email = EmailInfo.EMAIL;

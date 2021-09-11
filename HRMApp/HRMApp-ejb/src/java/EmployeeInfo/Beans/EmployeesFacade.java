@@ -7,7 +7,7 @@ package EmployeeInfo.Beans;
 
 import EmployeeInfo.Entity.Employees;
 import EmployeeInfo.Entity.Userrole;
-import Interceptors.EmployeeTrackingInterceptor;
+import Interceptors.EmployeeInterceptor;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -20,6 +20,7 @@ import javax.persistence.PersistenceContext;
  * @author heymeowcat
  */
 @Stateless
+
 public class EmployeesFacade extends AbstractFacade<Employees> {
 
     @PersistenceContext(unitName = "HRMApp-ejbPU")
@@ -38,7 +39,7 @@ public class EmployeesFacade extends AbstractFacade<Employees> {
         return em.createNamedQuery("Employees.findAll").getResultList();
     }
 
-    @Interceptors(EmployeeTrackingInterceptor.class)
+    @Interceptors(EmployeeInterceptor.class)
     public int saveEmployee(Employees employee) {
         em.persist(employee);
         em.flush();
@@ -51,13 +52,15 @@ public class EmployeesFacade extends AbstractFacade<Employees> {
     }
 
     public List<Employees> searchEmployees(String searchName, Userrole searchRole) {
-        return em.createNamedQuery("Employees.search").setParameter("firstName",searchName).setParameter("searchRole", searchRole).getResultList();
+        return em.createNamedQuery("Employees.search").setParameter("firstName", searchName).setParameter("searchRole", searchRole).getResultList();
     }
 
-    
     public List<Employees> searchEmployeesFirstName(String searchName) {
-        return em.createNamedQuery("Employees.findByFirstName").setParameter("firstName",searchName).getResultList();
+        return em.createNamedQuery("Employees.findByFirstName").setParameter("firstName", searchName).getResultList();
     }
 
+    public List<Employees> searchEmployeesNIC(String nic) {
+        return em.createNamedQuery("Employees.findByNic").setParameter("nic", nic).getResultList();
+    }
 
 }

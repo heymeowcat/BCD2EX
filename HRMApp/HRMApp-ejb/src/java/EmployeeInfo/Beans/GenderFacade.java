@@ -32,10 +32,7 @@ public class GenderFacade extends AbstractFacade<Gender> {
 
     public Gender findGenderId(String gender) {
         return (Gender) em.createNamedQuery("Gender.findByGenderName").setParameter("genderName", gender).getSingleResult();
-//        Query query = em.createQuery("SELECT g FROM Gender g WHERE g.genderName = :genderName");
-//        query.setParameter("genderName", "");
-//        Gender result = (Gender) query.getSingleResult();
-//        return result;
+
     }
 
 }

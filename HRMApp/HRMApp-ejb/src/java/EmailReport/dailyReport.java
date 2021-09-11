@@ -93,7 +93,7 @@ public class dailyReport {
 
       
         
-        s.sendMail("heyvidura@gmail.com", table);
+        s.sendMail("", table);
     }
 
     /**

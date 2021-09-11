@@ -40,4 +40,8 @@ public class LoginFacade extends AbstractFacade<Login> {
         em.flush();
     }
 
+    public List<Login> searchLoginUsername(String username) {
+        return em.createNamedQuery("Login.findByUsername").setParameter("username", username).getResultList();
+    }
+
 }

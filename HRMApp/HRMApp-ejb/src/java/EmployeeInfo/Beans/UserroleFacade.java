@@ -33,10 +33,7 @@ public class UserroleFacade extends AbstractFacade<Userrole> {
 
     public Userrole findUserRolebyName(String role) {
         return (Userrole) em.createNamedQuery("Userrole.findByUserRole").setParameter("userRole", role).getSingleResult();
-//        Query query = em.createQuery("SELECT g FROM Gender g WHERE g.genderName = :genderName");
-//        query.setParameter("genderName", "");
-//        Gender result = (Gender) query.getSingleResult();
-//        return result;
     }
 
+    
 }

@@ -89,6 +89,7 @@
         <section  style="height: 100vh;">
             <nav class="blue lighten-5" role="navigation ">
                 <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo black-text">Siyarata HRM</a>
+                    
                 </div>
             </nav>
             <center>
@@ -102,6 +103,9 @@
                         <li class="tab col s6 m6 l6"><a  href="#recruitment">Recruitment</a></li>
                         <li class="indicator" style="left: 0px; right: 0px;"></li>
                     </ul>
+
+
+
                     <div  id="admin" style="padding: 20px" >
                         <ul class="collapsible">
                             <li class="active">
